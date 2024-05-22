@@ -5,7 +5,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/v1/product', productRouters);
+app.use('/api/product', productRouters);
 console.log(productRouters);
 app.get('/', (req: Request, res: Response) => {
   res.send('order management is running');
