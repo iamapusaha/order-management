@@ -41,8 +41,33 @@ const getSingleProduct = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await productService.updateSingleProductById(
+      productId,
+      req.body,
+    );
+    if (!updateProductById) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found',
+        data: null,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'product update succesfully',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const studentController = {
   createProduct,
   getProduct,
   getSingleProduct,
+  updateProductById,
 };
