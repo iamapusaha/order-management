@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
 import { productService } from './product.service';
+import productValidationSchema from './product.joi.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
+    const { error, value } = productValidationSchema.validate(productData);
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'somethings went wrong',
+        error: error.details,
+      });
+    }
     const result = await productService.createProductIntoDB(productData);
 
     res.status(200).json({
@@ -12,7 +21,11 @@ const createProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'somethings went wrong',
+      error,
+    });
   }
 };
 const getProduct = async (req: Request, res: Response) => {
