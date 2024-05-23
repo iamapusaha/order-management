@@ -6,9 +6,15 @@ const createProductIntoDB = async (product: Product) => {
   return result;
 };
 
-const getAllProductFromDB = async () => {
-  const result = await productModel.find();
-  return result;
+const getAllProductFromDB = async (searchTerm: string | undefined) => {
+  if (searchTerm) {
+    const regex = new RegExp(searchTerm, 'i');
+    const result = await productModel.find({ name: regex });
+    return result;
+  } else {
+    const result = await productModel.find();
+    return result;
+  }
 };
 
 const getSingleProductFromDB = async (id: string) => {
@@ -30,16 +36,11 @@ const deleteProductById = async (id: string) => {
   const result = await productModel.findByIdAndDelete(id);
   return result;
 };
-const searchProductFromDB = async (searchTerm: string) => {
-  const regex = new RegExp(searchTerm, 'i');
-  const result = await productModel.find({ name: regex });
-  return result;
-};
+
 export const productService = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
   updateSingleProductById,
   deleteProductById,
-  searchProductFromDB,
 };
