@@ -17,7 +17,7 @@ const createProduct = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'product data store successfully',
+      message: 'Product created successfully!',
       data: result,
     });
   } catch (error) {
@@ -36,11 +36,15 @@ const getProduct = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'All product data are here!',
+      message: 'Products fetched successfully!',
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'somethings went wrong',
+      error,
+    });
   }
 };
 const getSingleProduct = async (req: Request, res: Response) => {
@@ -49,11 +53,15 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const result = await productService.getSingleProductFromDB(productId);
     res.status(200).json({
       success: true,
-      message: 'single product data are here by id!',
+      message: 'Product fetched successfully!',
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'somethings went wrong',
+      error,
+    });
   }
 };
 
@@ -104,11 +112,15 @@ const deleteProductById = async (req: Request, res: Response) => {
     const result = await productService.deleteProductById(productId);
     res.status(200).json({
       success: true,
-      message: 'product delete successfully!',
+      message: 'Product deleted successfully!',
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'somethings went wrong',
+      error,
+    });
   }
 };
 
