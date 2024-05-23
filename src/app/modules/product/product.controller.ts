@@ -17,7 +17,13 @@ const createProduct = async (req: Request, res: Response) => {
 };
 const getProduct = async (req: Request, res: Response) => {
   try {
-    const result = await productService.getAllProductFromDB();
+    const searchTerm = req.query.searchTerm as string | undefined;
+    let result;
+    if (searchTerm) {
+      result = await productService.searchProductFromDB(searchTerm);
+    } else {
+      result = await productService.getAllProductFromDB();
+    }
 
     res.status(200).json({
       success: true,
@@ -78,6 +84,7 @@ const deleteProductById = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
 export const studentController = {
   createProduct,
   getProduct,
